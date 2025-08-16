@@ -1,5 +1,5 @@
 abstract class ApiUrl {
-  static const String baseUrl = "https://seedsapp.org";
+  static const String baseUrl = "https://seedsapp.org/api";
   static const String login = "$baseUrl/auth/login";
   static const String register = "$baseUrl/auth/register";
   static String forgetPassword(String email) =>

@@ -10,7 +10,7 @@ class StripeServicePayment {
   /// Call this in main() before runApp to initialize Stripe
   static Future<void> setup() async {
     WidgetsFlutterBinding.ensureInitialized();
-    Stripe.publishableKey = Constantstripe.stripePublishableKey;
+    // Stripe.publishableKey = Constantstripe.stripePublishableKey;
   }
 
   /// Call this to start the payment flow
@@ -56,9 +56,9 @@ class StripeServicePayment {
         data: data,
         options: Options(
           contentType: Headers.formUrlEncodedContentType,
-          headers: {
-            "Authorization": "Bearer ${Constantstripe.stripeSecretKey}",
-          },
+          // headers: {
+          //   "Authorization": "Bearer ${Constantstripe.stripeSecretKey}",
+          // },
         ),
       );
 
