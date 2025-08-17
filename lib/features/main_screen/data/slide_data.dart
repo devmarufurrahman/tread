@@ -5,7 +5,7 @@ List<TreeSlide> getSlides() {
   const slideData = [
     {
       'imagePath':
-          'assets/images/peopleScreen.png', // This will be replaced with generated image
+          'assets/images/tree2.png', // This will be replaced with generated image
       'text': 'Your Personal Tree',
     },
     {'imagePath': 'assets/images/tree3.png', 'text': 'Your Everyday Tree'},
