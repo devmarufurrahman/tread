@@ -9,6 +9,7 @@ import '../../your_community_tree/screen/your_community_tree.dart';
 import '../../your_everyday_tree/screen/your_everyday_tree.dart';
 import '../controller/tree_slider_controller.dart';
 import '../data/slide_data.dart' show getSlides;
+import '../widgets/tree_with_people.dart';
 import 'dart:convert';
 
 class MainHome extends StatelessWidget {
@@ -134,7 +135,8 @@ class MainHome extends StatelessWidget {
 
           // Swipable PageView
           SizedBox(
-            height: 400,
+            height:
+                MediaQuery.of(context).size.height * 0.6, // Responsive height
             child: Stack(
               children: [
                 PageView.builder(
@@ -149,73 +151,109 @@ class MainHome extends StatelessWidget {
 
                       // Show shimmer loading for personal tree while generating
                       if (index == 0 && controller.isLoadingTreeImage.value) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        return SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10),
+                              Container(
+                                width: 300,
+                                height: 300,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: const ShimmerCard(
+                                    height: 300,
+                                    width: 300,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ), // Reduced space for slider dots
+                              Text(
+                                slide.text,
+                                style: const TextStyle(
+                                  color: Color(0xFF4CAF50),
+                                  fontSize: 22, // Slightly smaller font
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 10), // Bottom padding
+                            ],
+                          ),
+                        );
+                      }
+
+                      return SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            const SizedBox(height: 10),
                             Container(
-                              width: 300,
-                              height: 300,
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              height: MediaQuery.of(context).size.width * 0.75,
+                              constraints: const BoxConstraints(
+                                minWidth: 250,
+                                maxWidth: 320, // Reduced max width
+                                minHeight: 250,
+                                maxHeight: 320, // Reduced max height
+                              ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
-                                child: const ShimmerCard(
-                                  height: 300,
-                                  width: 300,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                ),
+                                child:
+                                    index == 0
+                                        ? TreeWithPeople(
+                                          treeImagePath:
+                                              'assets/images/tree2.png',
+                                          width:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width *
+                                              0.75,
+                                          height:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width *
+                                              0.75,
+                                        )
+                                        : _buildTreeImage(
+                                          slide.imagePath,
+                                          'assets/images/tree1.png', // Fallback for personal tree
+                                        ),
                               ),
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(
+                              height: 50,
+                            ), // Reduced space for slider dots
                             Text(
                               slide.text,
                               style: const TextStyle(
                                 color: Color(0xFF4CAF50),
-                                fontSize: 24,
+                                fontSize: 22, // Slightly smaller font
                                 fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.center,
                             ),
+                            const SizedBox(height: 10), // Bottom padding
                           ],
-                        );
-                      }
-
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 300,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: _buildTreeImage(
-                                slide.imagePath,
-                                'assets/images/tree1.png', // Fallback for personal tree
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            slide.text,
-                            style: const TextStyle(
-                              color: Color(0xFF4CAF50),
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                        ),
                       );
                     });
                   },
                 ),
-                const SizedBox(height: 20),
+                // Slider dots positioned in the gap we created
                 Positioned(
-                  bottom: 10,
+                  bottom: 70, // Adjusted position
                   left: 0,
                   right: 0,
                   child: Obx(
